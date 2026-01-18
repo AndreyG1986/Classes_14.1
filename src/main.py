@@ -10,35 +10,28 @@ class Product:
         self.price=price
         self.quantity=quantity
 
-    class Category:
-        name: str
-        description: str
-        products:list
+class Category:
+    name: str
+    description: str
+    products:list
 
-        def __init__(self,name,description,products):
-            self.name = name
-            self.description = description
-            self.products=products
-            self.product_count=0
-            self.category_count=0
+    def __init__(self,name,description,products):
+        self.name = name
+        self.description = description
+        self.products=products
+        self.product_count=0
+        self.category_count=0
 
 
 if __name__ == "__main__":
-    tomato = Product("tomato","red and cool",100.28,4)
-    print(tomato)
-    print(tomato.name)
-    print(tomato.description)
-    print(tomato.price)
-    print(tomato.quantity)
-    print()
-#     product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
-#     product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
+    product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
+    product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
 #     product3 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
 #
-#     print(product1.name)
-#     print(product1.description)
-#     print(product1.price)
-#     print(product1.quantity)
+    print(product1.name)
+    print(product1.description)
+    print(product1.price)
+    print(product1.quantity)
 #
 #     print(product2.name)
 #     print(product2.description)
