@@ -18,7 +18,9 @@ class Product:
         def __init__(self,name,description,products):
             self.name = name
             self.description = description
-            self.products=[]
+            self.products=products
+            self.product_count=0
+            self.category_count=0
 
 
 if __name__ == "__main__":
