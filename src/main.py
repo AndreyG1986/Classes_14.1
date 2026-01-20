@@ -14,7 +14,7 @@ class Category:
     name: str
     description: str
     products:list
-    product_count: int
+    product_count: int=0
     category_count: int=0
 
 
@@ -22,8 +22,8 @@ class Category:
         self.name = name
         self.description = description
         self.products=products
-        self.product_count=len(products)
         Category.category_count+=1
+        Category.product_count += len(products) if products else 0
 
 
 if __name__ == "__main__":
@@ -67,8 +67,8 @@ if __name__ == "__main__":
     print(category2.products)
 
     print(Category.category_count)
-    # print(Category.product_count)# Из-за этой строки ошибка. Не понимаю как это исправить
+    print(Category.product_count)
 
     # Вместо этого можно вывести product_count для каждой категории:
-    print(f"Количество продуктов в категории \"Смартфоны\": {category1.product_count}")
-    print(f"Количество продуктов в категории \"Телевизоры\": {category2.product_count}")
+    # print(f"Количество продуктов в категории \"Смартфоны\": {category1.product_count}")
+    # print(f"Количество продуктов в категории \"Телевизоры\": {category2.product_count}")
