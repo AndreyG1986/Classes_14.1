@@ -20,7 +20,7 @@ def product_3():
 
 @pytest.fixture()
 def product_4():
-    return Product("55\" QLED 4K", "Фоновая подсветка", 123000.0, 7)
+    return Product('55" QLED 4K', "Фоновая подсветка", 123000.0, 7)
 
 
 @pytest.fixture()
@@ -34,6 +34,8 @@ def category_1(product_1, product_2, product_3):
 
 @pytest.fixture()
 def category_2(product_4):
-    return Category("Телевизоры",
-                         "Современный телевизор, который позволяет наслаждаться просмотром, станет вашим другом и помощником",
-                         [product_4])
+    return Category(
+        "Телевизоры",
+        "Современный телевизор, который позволяет наслаждаться просмотром, станет вашим другом и помощником",
+        [product_4],
+    )
