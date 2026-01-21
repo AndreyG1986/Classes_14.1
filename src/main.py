@@ -10,6 +10,12 @@ class Product:
         self.price = price
         self.quantity = quantity
 
+    def __str__(self):
+        return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
+
+    def __repr__(self):
+        return f"Product(name={self.name!r}, price={self.price}, quantity={self.quantity})"
+
 
 class Category:
     name: str
@@ -24,6 +30,12 @@ class Category:
         self.products = products
         Category.category_count += 1
         Category.product_count += len(products) if products else 0
+
+    def __str__(self):
+        return f"{self.name}, количество продуктов: {len(self.products) if self.products else 0}"
+
+    def __repr__(self):
+        return f"Category(name={self.name!r}, products_count={len(self.products) if self.products else 0})"
 
 
 if __name__ == "__main__":

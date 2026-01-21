@@ -39,3 +39,11 @@ def category_2(product_4):
         "Современный телевизор, который позволяет наслаждаться просмотром, станет вашим другом и помощником",
         [product_4],
     )
+
+
+@pytest.fixture(autouse=True)
+def reset_counters_before_test():
+    """Фикстура для сброса счетчиков перед каждым тестом"""
+    # Сбрасываем счетчики перед каждым тестом
+    Category.category_count = 0
+    Category.product_count = 0
