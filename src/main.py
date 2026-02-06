@@ -60,6 +60,10 @@ class Category:
         Category.category_count += 1
         Category.product_count += len(products) if products else 0
 
+        # ВАЖНО: добавляем продукты при создании категории
+        for product in products:
+            self.add_product(product)
+
     def __str__(self):
         return f"{self.name}, количество продуктов: {len(self.products) if self.products else 0}"
 
