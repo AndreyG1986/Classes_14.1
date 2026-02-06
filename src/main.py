@@ -31,10 +31,10 @@ class Product:
             raise TypeError("Данные должны быть представлены в виде словаря")
 
         # Извлекаем данные из словаря
-        name = prod_data.get('name')
-        description = prod_data.get('description')
-        price = prod_data.get('price')
-        quantity = prod_data.get('quantity')
+        name = prod_data.get("name")
+        description = prod_data.get("description")
+        price = prod_data.get("price")
+        quantity = prod_data.get("quantity")
 
         # Создаем и возвращаем новый объект Product
         return cls(name, description, price, quantity)
@@ -76,7 +76,6 @@ class Category:
             self.__products.append(product)
         else:
             raise ValueError("Можно добавлять только объекты класса Product")
-
 
     @property
     def products_info(self):
@@ -152,10 +151,10 @@ if __name__ == "__main__":
     # "принимать на вход параметры товара в словаре и возвращать созданный объект класса Product"
 
     new_product_data = {
-        'name': 'Телефон Nokia 3310',
-        'description': 'Легендарный надежный телефон',
-        'price': 5000.0,
-        'quantity': 20
+        "name": "Телефон Nokia 3310",
+        "description": "Легендарный надежный телефон",
+        "price": 5000.0,
+        "quantity": 20,
     }
 
     new_prod_1 = Product.new_product(new_product_data)

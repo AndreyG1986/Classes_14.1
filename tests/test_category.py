@@ -1,7 +1,6 @@
 from src.main import Category
 
 
-
 def test_init_category(category_1, category_2):
     assert category_1.name == "Смартфоны"
     assert (

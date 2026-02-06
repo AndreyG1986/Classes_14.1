@@ -37,7 +37,6 @@ def category_1(product_1, product_2, product_3):
     return category
 
 
-
 @pytest.fixture
 def category_2(product_4):
     category = Category(
@@ -55,4 +54,3 @@ def reset_counters_before_test():
     # Сбрасываем счетчики перед каждым тестом
     Category.category_count = 0
     Category.product_count = 0
-

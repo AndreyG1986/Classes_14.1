@@ -1,4 +1,4 @@
-from src.main import Category, Product
+from src.main import Category
 
 
 class TestCategory:
@@ -25,8 +25,8 @@ class TestCategory:
 
         assert category_1.name == "Смартфоны"
         assert (
-                category_1.description
-                == "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни"
+            category_1.description
+            == "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни"
         )
         # Вместо обращения к products, используем products_info
         product_info = category_1.products_info
@@ -36,8 +36,8 @@ class TestCategory:
 
         assert category_2.name == "Телевизоры"
         assert (
-                category_2.description
-                == "Современный телевизор, который позволяет наслаждаться просмотром, станет вашим другом и помощником"
+            category_2.description
+            == "Современный телевизор, который позволяет наслаждаться просмотром, станет вашим другом и помощником"
         )
         assert '55" QLED 4K' in category_2.products_info
 
