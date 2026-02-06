@@ -7,9 +7,37 @@ class Product:
     def __init__(self, name, description, price, quantity):
         self.name = name
         self.description = description
-        self.price = price
+        self.__price = price
         self.quantity = quantity
 
+    @property
+    def price(self):
+        """Геттер для цены"""
+        return self.__price
+
+    @price.setter
+    def price(self, new_price):
+        """Сеттер для цены с проверкой"""
+        if new_price <= 0:
+            print("Цена не должна быть нулевая или отрицательная")
+        else:
+            self.__price = new_price
+
+    @classmethod
+    def new_product(cls, prod_data):
+        """Создает новый продукт из словаря с данными"""
+        # Проверяем, что prod_data является словарем
+        if not isinstance(prod_data, dict):
+            raise TypeError("Данные должны быть представлены в виде словаря")
+
+        # Извлекаем данные из словаря
+        name = prod_data.get('name')
+        description = prod_data.get('description')
+        price = prod_data.get('price')
+        quantity = prod_data.get('quantity')
+
+        # Создаем и возвращаем новый объект Product
+        return cls(name, description, price, quantity)
 
     def __str__(self):
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
@@ -116,24 +144,16 @@ if __name__ == "__main__":
     print(category1.products_info)
     print(category2.products_info)
 
-    # # Создаем продукты
-    # apple = Product("Яблоки", 100, 50)
-    # banana = Product("Бананы", 80, 30)
-    #
-    # # Создаем категорию
-    # fruits = Category("Фрукты")
-    #
-    # # Добавляем продукты
-    # fruits.add_product(apple)
-    # fruits.add_product(banana)
-    #
-    # # Выводим информацию
-    # print(fruits.products_info)
-    #
-    # # Добавляем еще один продукт
-    # orange = Product("Апельсины", 120, 20)
-    # fruits.add_product(orange)
-    #
-    # # Снова выводим (информация обновилась)
-    # print("\nПосле добавления апельсинов:")
-    # print(fruits.products_info)
+    # Создаем новый продукт через класс-метод, используя словарь, как в задании
+    # "принимать на вход параметры товара в словаре и возвращать созданный объект класса Product"
+
+    new_product_data = {
+        'name': 'Телефон Nokia 3310',
+        'description': 'Легендарный надежный телефон',
+        'price': 5000.0,
+        'quantity': 20
+    }
+
+    new_prod_1 = Product.new_product(new_product_data)
+    print(new_prod_1)  # Телефон Nokia 3310, 5000.0 руб. Остаток: 20 шт.
+    print(type(new_prod_1))  # <class '__main__.Product'>
