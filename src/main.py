@@ -74,8 +74,21 @@ class Category:
         """Добавляет продукт в категорию"""
         if isinstance(product, Product):
             self.__products.append(product)
+            Category.product_count += 1  # Увеличиваем счетчик продуктов
         else:
             raise ValueError("Можно добавлять только объекты класса Product")
+
+
+    @property
+    def products(self):
+        """Геттер для атрибута products - возвращает строку с информацией о продуктах"""
+        if not self.__products:
+            return f"В категории '{self.name}' нет продуктов"
+
+        result = ""
+        for product in self.__products:
+            result += f"{product}\n"
+        return result.rstrip()  # Убираем лишний перенос строки в конце
 
     @property
     def products_info(self):
@@ -86,7 +99,12 @@ class Category:
         result = f"Категория: {self.name}\n"
         for product in self.__products:
             result += f"  - {product}\n"
-        return result
+        return result.rstrip()  # Убираем лишний перенос строки
+
+    # Если нужен доступ к списку продуктов как к объектам
+    def get_products_list(self):
+        """Возвращает список объектов продуктов"""
+        return self.__products.copy()  # Возвращаем копию для безопасности
 
 
 if __name__ == "__main__":
