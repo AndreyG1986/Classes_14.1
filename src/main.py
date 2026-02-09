@@ -49,26 +49,27 @@ class Product:
 class Category:
     name: str
     description: str
-    products: list
     product_count: int = 0
     category_count: int = 0
 
     def __init__(self, name, description, products):
         self.name = name
         self.description = description
-        self.__products = []
+        self.__products = []  # Приватный список продуктов
         Category.category_count += 1
-        Category.product_count += len(products) if products else 0
+        # УБИРАЕМ ЗДЕСЬ УВЕЛИЧЕНИЕ СЧЕТЧИКА, чтобы избежать двойного подсчета
 
         # ВАЖНО: добавляем продукты при создании категории
         for product in products:
-            self.add_product(product)
+            self.add_product(product)  # Счетчик увеличится только здесь
 
     def __str__(self):
-        return f"{self.name}, количество продуктов: {len(self.products) if self.products else 0}"
+        # Используем длину приватного списка, а не обращение к свойству products
+        return f"{self.name}, количество продуктов: {len(self.__products)} шт."
 
     def __repr__(self):
-        return f"Category(name={self.name!r}, products_count={len(self.products) if self.products else 0})"
+        # Используем длину приватного списка
+        return f"Category(name={self.name!r}, products_count={len(self.__products)})"
 
     def add_product(self, product):
         """Добавляет продукт в категорию"""
@@ -78,7 +79,6 @@ class Category:
         else:
             raise ValueError("Можно добавлять только объекты класса Product")
 
-
     @property
     def products(self):
         """Геттер для атрибута products - возвращает строку с информацией о продуктах"""
@@ -87,6 +87,7 @@ class Category:
 
         result = ""
         for product in self.__products:
+            # Используем формат из __str__ метода Product
             result += f"{product}\n"
         return result.rstrip()  # Убираем лишний перенос строки в конце
 
@@ -136,7 +137,6 @@ if __name__ == "__main__":
 
     print(category1.name == "Смартфоны")
     print(category1.description)
-    # print(len(category1.products))
     print(category1.category_count)
     print(category1.product_count)
 
@@ -149,25 +149,28 @@ if __name__ == "__main__":
 
     print(category2.name)
     print(category2.description)
-    # print(len(category2.products))
-    # print(category2.products)
-
     print(Category.category_count)
     print(Category.product_count)
 
-    # Добавляем продукты
-    category1.add_product(product1)
-    category1.add_product(product2)
-    category1.add_product(product3)
-    category2.add_product(product4)
+    # Тестируем геттер products
+    print("\n=== Тестируем category1.products ===")
+    print(category1.products)
+    # Вывод:
+    # Samsung Galaxy S23 Ultra, 180000.0 руб. Остаток: 5 шт.
+    # Iphone 15, 210000.0 руб. Остаток: 8 шт.
+    # Xiaomi Redmi Note 11, 31000.0 руб. Остаток: 14 шт.
+
+    print("\n=== Тестируем category2.products ===")
+    print(category2.products)
+    # Вывод:
+    # 55" QLED 4K, 123000.0 руб. Остаток: 7 шт.
 
     # Выводим информацию
+    print("\n=== products_info ===")
     print(category1.products_info)
     print(category2.products_info)
 
-    # Создаем новый продукт через класс-метод, используя словарь, как в задании
-    # "принимать на вход параметры товара в словаре и возвращать созданный объект класса Product"
-
+    # Создаем новый продукт через класс-метод
     new_product_data = {
         "name": "Телефон Nokia 3310",
         "description": "Легендарный надежный телефон",
