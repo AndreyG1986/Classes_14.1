@@ -7,8 +7,37 @@ class Product:
     def __init__(self, name, description, price, quantity):
         self.name = name
         self.description = description
-        self.price = price
+        self.__price = price
         self.quantity = quantity
+
+    @property
+    def price(self):
+        """Геттер для цены"""
+        return self.__price
+
+    @price.setter
+    def price(self, new_price):
+        """Сеттер для цены с проверкой"""
+        if new_price <= 0:
+            print("Цена не должна быть нулевая или отрицательная")
+        else:
+            self.__price = new_price
+
+    @classmethod
+    def new_product(cls, prod_data):
+        """Создает новый продукт из словаря с данными"""
+        # Проверяем, что prod_data является словарем
+        if not isinstance(prod_data, dict):
+            raise TypeError("Данные должны быть представлены в виде словаря")
+
+        # Извлекаем данные из словаря
+        name = prod_data.get("name")
+        description = prod_data.get("description")
+        price = prod_data.get("price")
+        quantity = prod_data.get("quantity")
+
+        # Создаем и возвращаем новый объект Product
+        return cls(name, description, price, quantity)
 
     def __str__(self):
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
@@ -20,25 +49,67 @@ class Product:
 class Category:
     name: str
     description: str
-    products: list
     product_count: int = 0
     category_count: int = 0
 
     def __init__(self, name, description, products):
         self.name = name
         self.description = description
-        self.products = products
+        self.__products = []  # Приватный список продуктов
         Category.category_count += 1
-        Category.product_count += len(products) if products else 0
+        # УБИРАЕМ ЗДЕСЬ УВЕЛИЧЕНИЕ СЧЕТЧИКА, чтобы избежать двойного подсчета
+
+        # ВАЖНО: добавляем продукты при создании категории
+        for product in products:
+            self.add_product(product)  # Счетчик увеличится только здесь
 
     def __str__(self):
-        return f"{self.name}, количество продуктов: {len(self.products) if self.products else 0}"
+        # Используем длину приватного списка, а не обращение к свойству products
+        return f"{self.name}, количество продуктов: {len(self.__products)} шт."
 
     def __repr__(self):
-        return f"Category(name={self.name!r}, products_count={len(self.products) if self.products else 0})"
+        # Используем длину приватного списка
+        return f"Category(name={self.name!r}, products_count={len(self.__products)})"
+
+    def add_product(self, product):
+        """Добавляет продукт в категорию"""
+        if isinstance(product, Product):
+            self.__products.append(product)
+            Category.product_count += 1  # Увеличиваем счетчик продуктов
+        else:
+            raise ValueError("Можно добавлять только объекты класса Product")
+
+    @property
+    def products(self):
+        """Геттер для атрибута products - возвращает строку с информацией о продуктах"""
+        if not self.__products:
+            return f"В категории '{self.name}' нет продуктов"
+
+        result = ""
+        for product in self.__products:
+            # Используем формат из __str__ метода Product
+            result += f"{product}\n"
+        return result.rstrip()  # Убираем лишний перенос строки в конце
+
+    @property
+    def products_info(self):
+        """Свойство, возвращающее информацию о продуктах"""
+        if not self.__products:
+            return f"В категории '{self.name}' нет продуктов"
+
+        result = f"Категория: {self.name}\n"
+        for product in self.__products:
+            result += f"  - {product}\n"
+        return result.rstrip()  # Убираем лишний перенос строки
+
+    # Если нужен доступ к списку продуктов как к объектам
+    def get_products_list(self):
+        """Возвращает список объектов продуктов"""
+        return self.__products.copy()  # Возвращаем копию для безопасности
 
 
 if __name__ == "__main__":
+    # Создаем продукты
     product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
     product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
     product3 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
@@ -66,7 +137,6 @@ if __name__ == "__main__":
 
     print(category1.name == "Смартфоны")
     print(category1.description)
-    print(len(category1.products))
     print(category1.category_count)
     print(category1.product_count)
 
@@ -79,8 +149,35 @@ if __name__ == "__main__":
 
     print(category2.name)
     print(category2.description)
-    print(len(category2.products))
-    print(category2.products)
-
     print(Category.category_count)
     print(Category.product_count)
+
+    # Тестируем геттер products
+    print("\n=== Тестируем category1.products ===")
+    print(category1.products)
+    # Вывод:
+    # Samsung Galaxy S23 Ultra, 180000.0 руб. Остаток: 5 шт.
+    # Iphone 15, 210000.0 руб. Остаток: 8 шт.
+    # Xiaomi Redmi Note 11, 31000.0 руб. Остаток: 14 шт.
+
+    print("\n=== Тестируем category2.products ===")
+    print(category2.products)
+    # Вывод:
+    # 55" QLED 4K, 123000.0 руб. Остаток: 7 шт.
+
+    # Выводим информацию
+    print("\n=== products_info ===")
+    print(category1.products_info)
+    print(category2.products_info)
+
+    # Создаем новый продукт через класс-метод
+    new_product_data = {
+        "name": "Телефон Nokia 3310",
+        "description": "Легендарный надежный телефон",
+        "price": 5000.0,
+        "quantity": 20,
+    }
+
+    new_prod_1 = Product.new_product(new_product_data)
+    print(new_prod_1)  # Телефон Nokia 3310, 5000.0 руб. Остаток: 20 шт.
+    print(type(new_prod_1))  # <class '__main__.Product'>
