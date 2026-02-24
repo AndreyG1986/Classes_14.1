@@ -56,7 +56,7 @@ class Product:
 class Category:
     name: str
     description: str
-    product_count: int = 0
+    product_count: int = 0  # Количество уникальных позиций продуктов
     category_count: int = 0
 
     def __init__(self, name, description, products):
@@ -64,27 +64,40 @@ class Category:
         self.description = description
         self.__products = []  # Приватный список продуктов
         Category.category_count += 1
-        # УБИРАЕМ ЗДЕСЬ УВЕЛИЧЕНИЕ СЧЕТЧИКА, чтобы избежать двойного подсчета
 
-        # ВАЖНО: добавляем продукты при создании категории
+        # Добавляем продукты при создании категории
         for product in products:
-            self.add_product(product)  # Счетчик увеличится только здесь
+            self.add_product(product)
 
     def __str__(self):
-        # Используем длину приватного списка, а не обращение к свойству products
-        return f"{self.name}, количество продуктов: {len(self.__products)} шт."
+        """
+        Возвращает название категории и общее количество товаров на складе.
+        Общее количество рассчитывается как сумма quantity всех продуктов.
+        """
+        total_quantity = self.get_total_quantity()
+        return f"{self.name}, количество товаров: {total_quantity} шт."
 
     def __repr__(self):
-        # Используем длину приватного списка
-        return f"Category(name={self.name!r}, products_count={len(self.__products)})"
+        total_quantity = self.get_total_quantity()
+        return f"Category(name={self.name!r}, total_products={total_quantity})"
 
     def add_product(self, product):
         """Добавляет продукт в категорию"""
         if isinstance(product, Product):
             self.__products.append(product)
-            Category.product_count += 1  # Увеличиваем счетчик продуктов
+            Category.product_count += 1  # Увеличиваем счетчик уникальных позиций
         else:
             raise ValueError("Можно добавлять только объекты класса Product")
+
+    def get_total_quantity(self):
+        """
+        Вычисляет общее количество товаров на складе,
+        суммируя quantity всех продуктов в категории
+        """
+        total = 0
+        for product in self.__products:
+            total += product.quantity
+        return total
 
     @property
     def products(self):
