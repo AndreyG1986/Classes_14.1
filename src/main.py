@@ -10,6 +10,13 @@ class Product:
         self.__price = price
         self.quantity = quantity
 
+    def __add__(self, other):
+        """
+        Метод срабатывает, когда используется оператор сложения.
+        В параметре other хранится то, что справа от знака +
+        """
+        return self.__price * self.quantity + other.__price * other.quantity
+
     @property
     def price(self):
         """Геттер для цены"""
@@ -49,7 +56,7 @@ class Product:
 class Category:
     name: str
     description: str
-    product_count: int = 0
+    product_count: int = 0  # Количество уникальных позиций продуктов
     category_count: int = 0
 
     def __init__(self, name, description, products):
@@ -57,27 +64,40 @@ class Category:
         self.description = description
         self.__products = []  # Приватный список продуктов
         Category.category_count += 1
-        # УБИРАЕМ ЗДЕСЬ УВЕЛИЧЕНИЕ СЧЕТЧИКА, чтобы избежать двойного подсчета
 
-        # ВАЖНО: добавляем продукты при создании категории
+        # Добавляем продукты при создании категории
         for product in products:
-            self.add_product(product)  # Счетчик увеличится только здесь
+            self.add_product(product)
 
     def __str__(self):
-        # Используем длину приватного списка, а не обращение к свойству products
-        return f"{self.name}, количество продуктов: {len(self.__products)} шт."
+        """
+        Возвращает название категории и общее количество товаров на складе.
+        Общее количество рассчитывается как сумма quantity всех продуктов.
+        """
+        total_quantity = self.get_total_quantity()
+        return f"{self.name}, количество товаров: {total_quantity} шт."
 
     def __repr__(self):
-        # Используем длину приватного списка
-        return f"Category(name={self.name!r}, products_count={len(self.__products)})"
+        total_quantity = self.get_total_quantity()
+        return f"Category(name={self.name!r}, total_products={total_quantity})"
 
     def add_product(self, product):
         """Добавляет продукт в категорию"""
         if isinstance(product, Product):
             self.__products.append(product)
-            Category.product_count += 1  # Увеличиваем счетчик продуктов
+            Category.product_count += 1  # Увеличиваем счетчик уникальных позиций
         else:
             raise ValueError("Можно добавлять только объекты класса Product")
+
+    def get_total_quantity(self):
+        """
+        Вычисляет общее количество товаров на складе,
+        суммируя quantity всех продуктов в категории
+        """
+        total = 0
+        for product in self.__products:
+            total += product.quantity
+        return total
 
     @property
     def products(self):
@@ -109,25 +129,14 @@ class Category:
 
 
 if __name__ == "__main__":
-    # Создаем продукты
+    print("\n=== Задание 15.1 магические методы ===")
     product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
     product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
     product3 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
 
-    print(product1.name)
-    print(product1.description)
-    print(product1.price)
-    print(product1.quantity)
-
-    print(product2.name)
-    print(product2.description)
-    print(product2.price)
-    print(product2.quantity)
-
-    print(product3.name)
-    print(product3.description)
-    print(product3.price)
-    print(product3.quantity)
+    print(str(product1))
+    print(str(product2))
+    print(str(product3))
 
     category1 = Category(
         "Смартфоны",
@@ -135,49 +144,10 @@ if __name__ == "__main__":
         [product1, product2, product3],
     )
 
-    print(category1.name == "Смартфоны")
-    print(category1.description)
-    print(category1.category_count)
-    print(category1.product_count)
+    print(str(category1))
 
-    product4 = Product('55" QLED 4K', "Фоновая подсветка", 123000.0, 7)
-    category2 = Category(
-        "Телевизоры",
-        "Современный телевизор, который позволяет наслаждаться просмотром, станет вашим другом и помощником",
-        [product4],
-    )
-
-    print(category2.name)
-    print(category2.description)
-    print(Category.category_count)
-    print(Category.product_count)
-
-    # Тестируем геттер products
-    print("\n=== Тестируем category1.products ===")
     print(category1.products)
-    # Вывод:
-    # Samsung Galaxy S23 Ultra, 180000.0 руб. Остаток: 5 шт.
-    # Iphone 15, 210000.0 руб. Остаток: 8 шт.
-    # Xiaomi Redmi Note 11, 31000.0 руб. Остаток: 14 шт.
 
-    print("\n=== Тестируем category2.products ===")
-    print(category2.products)
-    # Вывод:
-    # 55" QLED 4K, 123000.0 руб. Остаток: 7 шт.
-
-    # Выводим информацию
-    print("\n=== products_info ===")
-    print(category1.products_info)
-    print(category2.products_info)
-
-    # Создаем новый продукт через класс-метод
-    new_product_data = {
-        "name": "Телефон Nokia 3310",
-        "description": "Легендарный надежный телефон",
-        "price": 5000.0,
-        "quantity": 20,
-    }
-
-    new_prod_1 = Product.new_product(new_product_data)
-    print(new_prod_1)  # Телефон Nokia 3310, 5000.0 руб. Остаток: 20 шт.
-    print(type(new_prod_1))  # <class '__main__.Product'>
+    print(product1 + product2)
+    print(product1 + product3)
+    print(product2 + product3)
