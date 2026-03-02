@@ -1,4 +1,4 @@
-from src.main import Product,Category
+from base_classes import Product
 
 
 class Smartphone(Product):
@@ -10,7 +10,6 @@ class Smartphone(Product):
         self.model = model
         self.memory = memory
         self.color = color
-
 
 
 class LawnGrass(Product):
