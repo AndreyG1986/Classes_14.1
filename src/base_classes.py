@@ -105,7 +105,8 @@ class Category:
         # Проверяем, является ли объект экземпляром Product или его наследников
         if not isinstance(product, Product):
             raise TypeError(
-                f"Можно добавлять только объекты класса Product или его наследников. Получен: {type(product).__name__}")
+                f"Можно добавлять только объекты класса Product или его наследников. Получен: {type(product).__name__}"
+            )
 
         self.__products.append(product)
         Category.product_count += 1  # Увеличиваем счетчик уникальных позиций
@@ -149,5 +150,5 @@ class Category:
         return self.__products.copy()  # Возвращаем копию для безопасности
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print("\n=== Задание 16.1 Наследование===")
