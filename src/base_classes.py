@@ -1,4 +1,15 @@
-class Product:
+from abc import ABC, abstractmethod
+
+
+class BaseProduct(ABC):
+    """Абстрактный базовый класс для продуктов"""
+
+    @abstractmethod
+    def __add__(self, other):
+        pass
+
+
+class Product(BaseProduct):
     name: str
     description: str
     price: float
@@ -13,9 +24,14 @@ class Product:
     def __add__(self, other):
         """
         Метод срабатывает, когда используется оператор сложения.
-        В параметре other хранится то, что справа от знака +
+        В параметре other хранится то, что справа от знака +.
+        Проверяем принадлежность к одному классу
         """
-        return self.__price * self.quantity + other.__price * other.quantity
+        if type(self) is not type(other):
+            raise TypeError("Нельзя складывать товары разных классов")
+
+        # Для объектов одного класса считаем сумму стоимости всех товаров
+        return (self.__price * self.quantity) + (other.__price * other.quantity)
 
     @property
     def price(self):
@@ -82,12 +98,17 @@ class Category:
         return f"Category(name={self.name!r}, total_products={total_quantity})"
 
     def add_product(self, product):
-        """Добавляет продукт в категорию"""
-        if isinstance(product, Product):
-            self.__products.append(product)
-            Category.product_count += 1  # Увеличиваем счетчик уникальных позиций
-        else:
-            raise ValueError("Можно добавлять только объекты класса Product")
+        """
+        Добавляет продукт в категорию.
+        Защита от добавления объектов, не являющихся продуктами или их наследниками.
+        """
+        # Проверяем, является ли объект экземпляром Product или его наследников
+        if not isinstance(product, Product):
+            raise TypeError(
+                f"Можно добавлять только объекты класса Product или его наследников. Получен: {type(product).__name__}")
+
+        self.__products.append(product)
+        Category.product_count += 1  # Увеличиваем счетчик уникальных позиций
 
     def get_total_quantity(self):
         """
@@ -126,3 +147,7 @@ class Category:
     def get_products_list(self):
         """Возвращает список объектов продуктов"""
         return self.__products.copy()  # Возвращаем копию для безопасности
+
+
+if __name__ == '__main__':
+    print("\n=== Задание 16.1 Наследование===")
