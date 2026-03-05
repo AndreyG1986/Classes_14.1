@@ -1,5 +1,4 @@
 import pytest
-
 from src.base_classes import Product, Category
 
 
@@ -25,32 +24,36 @@ def product_4():
 
 @pytest.fixture
 def category_1(product_1, product_2, product_3):
+    """Фикстура для категории с тремя продуктами"""
     category = Category(
         "Смартфоны",
         "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни",
         [product_1, product_2, product_3],
     )
-    # Явно добавляем продукты, так как в текущей реализации они не добавляются в __init__
-    category.add_product(product_1)
-    category.add_product(product_2)
-    category.add_product(product_3)
+    # Убираем явные add_product, так как они уже добавляются в конструкторе
     return category
 
 
 @pytest.fixture
 def category_2(product_4):
+    """Фикстура для категории с одним продуктом"""
     category = Category(
         "Телевизоры",
         "Современный телевизор, который позволяет наслаждаться просмотром, станет вашим другом и помощником",
         [product_4],
     )
-    category.add_product(product_4)
+    # Убираем явные add_product, так как они уже добавляются в конструкторе
     return category
+
+
+@pytest.fixture
+def empty_category():
+    """Фикстура для пустой категории"""
+    return Category("Пустая категория", "Без продуктов", [])
 
 
 @pytest.fixture(autouse=True)
 def reset_counters_before_test():
     """Фикстура для сброса счетчиков перед каждым тестом"""
-    # Сбрасываем счетчики перед каждым тестом
     Category.category_count = 0
     Category.product_count = 0
