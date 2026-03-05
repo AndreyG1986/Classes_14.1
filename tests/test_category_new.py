@@ -1,4 +1,4 @@
-from src.main import Category
+from src.base_classes import Category
 
 
 class TestCategory:
