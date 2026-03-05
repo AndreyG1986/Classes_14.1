@@ -38,18 +38,21 @@ def test_print_mixin_multiple_outputs(capsys):
     ]
 
     captured = capsys.readouterr()
-    lines = captured.out.strip().split('\n')
+    lines = captured.out.strip().split("\n")
 
     assert len(lines) == 2
     assert lines[0] == "Product(name='A', price=100, quantity=1)"
     assert lines[1] == "Product(name='B', price=200, quantity=2)"
 
 
-@pytest.mark.parametrize("name,desc,price,qty,expected", [
-    ("Тест1", "Описание1", 100, 5, "Product(name='Тест1', price=100, quantity=5)"),
-    ("Тест2", "Описание2", 200, 10, "Product(name='Тест2', price=200, quantity=10)"),
-    ("", "", 0, 0, "Product(name='', price=0, quantity=0)"),
-])
+@pytest.mark.parametrize(
+    "name,desc,price,qty,expected",
+    [
+        ("Тест1", "Описание1", 100, 5, "Product(name='Тест1', price=100, quantity=5)"),
+        ("Тест2", "Описание2", 200, 10, "Product(name='Тест2', price=200, quantity=10)"),
+        ("", "", 0, 0, "Product(name='', price=0, quantity=0)"),
+    ],
+)
 def test_print_mixin_parametrized(capsys, name, desc, price, qty, expected):
     """Параметризованный тест - исправленный"""
 

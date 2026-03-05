@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from src.print_mixin import PrintMixin
 
+
 class BaseProduct(ABC):
     """Абстрактный базовый класс для продуктов"""
 
@@ -21,7 +22,6 @@ class Product(BaseProduct, PrintMixin):
         self.__price = price
         self.quantity = quantity
         super().__init__()
-
 
     def __add__(self, other):
         """
