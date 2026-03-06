@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from src.print_mixin import PrintMixin
 
 
 class BaseProduct(ABC):
@@ -9,7 +10,7 @@ class BaseProduct(ABC):
         pass
 
 
-class Product(BaseProduct):
+class Product(BaseProduct, PrintMixin):
     name: str
     description: str
     price: float
@@ -20,6 +21,7 @@ class Product(BaseProduct):
         self.description = description
         self.__price = price
         self.quantity = quantity
+        super().__init__()
 
     def __add__(self, other):
         """
@@ -152,3 +154,16 @@ class Category:
 
 if __name__ == "__main__":
     print("\n=== Задание 16.1 Наследование===")
+    print("\n=== Проверка PrintMixin ===")
+
+    # При создании объекта должен автоматически вывестись repr
+    product1 = Product("Ноутбук", "Мощный ноутбук", 50000, 10)
+    product2 = Product("Смартфон", "Новый смартфон", 30000, 15)
+
+    print("\n=== Строковое представление ===")
+    print(str(product1))
+    print(repr(product1))
+
+    print("\n=== Категория с продуктами ===")
+    category = Category("Электроника", "Разная электроника", [product1, product2])
+    print(category.products_info)
