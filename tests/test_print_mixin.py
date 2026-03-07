@@ -1,5 +1,5 @@
 import pytest
-from src.base_classes import Product
+from src.main import Product
 from src.print_mixin import PrintMixin
 
 
@@ -46,19 +46,22 @@ def test_print_mixin_multiple_outputs(capsys):
 
 
 @pytest.mark.parametrize(
-    "name,desc,price,qty,expected",
+    "name,desc,price,qty,expected,should_raise",
     [
-        ("Тест1", "Описание1", 100, 5, "Product(name='Тест1', price=100, quantity=5)"),
-        ("Тест2", "Описание2", 200, 10, "Product(name='Тест2', price=200, quantity=10)"),
-        ("", "", 0, 0, "Product(name='', price=0, quantity=0)"),
+        ("Тест1", "Описание1", 100, 5, "Product(name='Тест1', price=100, quantity=5)", False),
+        ("Тест2", "Описание2", 200, 10, "Product(name='Тест2', price=200, quantity=10)", False),
+        ("", "", 0, 0, None, True),  # Ожидаем исключение
     ],
 )
-def test_print_mixin_parametrized(capsys, name, desc, price, qty, expected):
-    """Параметризованный тест - исправленный"""
-
-    Product(name, desc, price, qty)
-    captured = capsys.readouterr()
-    assert captured.out.strip() == expected
+def test_print_mixin_parametrized(capsys, name, desc, price, qty, expected, should_raise):
+    """Параметризованный тест с проверкой исключений"""
+    if should_raise:
+        with pytest.raises(ValueError, match="Товар с нулевым количеством не может быть добавлен"):
+            Product(name, desc, price, qty)
+    else:
+        Product(name, desc, price, qty)
+        captured = capsys.readouterr()
+        assert captured.out.strip() == expected
 
 
 def test_print_mixin_with_mock_class(capsys):

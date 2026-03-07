@@ -1,4 +1,4 @@
-from src.base_classes import Category
+from src.main import Category
 
 
 def test_init_category(category_1, category_2):
