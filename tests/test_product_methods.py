@@ -30,12 +30,7 @@ class TestProductNewProduct:
 
     def test_new_product_creation(self):
         """Тест создания продукта через класс-метод"""
-        product_data = {
-            "name": "Test Product",
-            "description": "Test Description",
-            "price": 1000.0,
-            "quantity": 10
-        }
+        product_data = {"name": "Test Product", "description": "Test Description", "price": 1000.0, "quantity": 10}
         product = Product.new_product(product_data)
 
         assert product.name == "Test Product"
@@ -58,7 +53,6 @@ class TestProductNewProduct:
         with pytest.raises(ValueError, match="Отсутствует обязательное поле: description"):
             Product.new_product(product_data)
 
-
     def test_new_product_with_extra_fields(self, product_1):
         """Тест создания продукта с лишними полями"""
         product_data = {
@@ -67,7 +61,7 @@ class TestProductNewProduct:
             "price": 500.0,
             "quantity": 3,
             "extra_field": "should be ignored",
-            "another_field": 123
+            "another_field": 123,
         }
         product = Product.new_product(product_data)
 
@@ -76,5 +70,5 @@ class TestProductNewProduct:
         assert product.price == 500.0
         assert product.quantity == 3
         # Проверяем, что лишних атрибутов нет
-        assert not hasattr(product, 'extra_field')
-        assert not hasattr(product, 'another_field')
+        assert not hasattr(product, "extra_field")
+        assert not hasattr(product, "another_field")

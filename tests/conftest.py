@@ -64,27 +64,10 @@ def reset_counters_before_test():
 @pytest.fixture
 def sample_smartphone():
     """Фикстура для создания тестового смартфона"""
-    return Smartphone(
-        "Test Phone",
-        "Test Description",
-        1000.0,
-        5,
-        95.5,
-        "Test Model",
-        128,
-        "Black"
-    )
+    return Smartphone("Test Phone", "Test Description", 1000.0, 5, 95.5, "Test Model", 128, "Black")
 
 
 @pytest.fixture
 def sample_grass():
     """Фикстура для создания тестовой травы"""
-    return LawnGrass(
-        "Test Grass",
-        "Test Description",
-        100.0,
-        10,
-        "Россия",
-        "5 дней",
-        "Зеленый"
-    )
+    return LawnGrass("Test Grass", "Test Description", 100.0, 10, "Россия", "5 дней", "Зеленый")

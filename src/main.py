@@ -1,5 +1,6 @@
 from base_classes import Category, Product
-from subclasses import Smartphone, LawnGrass
+
+# from subclasses import Smartphone, LawnGrass
 
 
 if __name__ == "__main__":
@@ -8,7 +9,8 @@ if __name__ == "__main__":
         product_invalid = Product("Бракованный товар", "Неверное количество", 1000.0, 0)
     except ValueError as e:
         print(
-            "Возникла ошибка ValueError прерывающая работу программы при попытке добавить продукт с нулевым количеством")
+            "Возникла ошибка ValueError прерывающая работу программы при попытке добавить продукт с нулевым количеством"
+        )
     else:
         print("Не возникла ошибка ValueError при попытке добавить продукт с нулевым количеством")
 

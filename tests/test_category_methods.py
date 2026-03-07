@@ -92,7 +92,7 @@ class TestCategoryProductsProperty:
 
         assert initial_products != updated_products
         assert '55" QLED 4K' in updated_products
-        assert len(updated_products.split('\n')) == 4  # Было 3, стало 4
+        assert len(updated_products.split("\n")) == 4  # Было 3, стало 4
 
 
 class TestCategoryIntegration:

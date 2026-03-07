@@ -16,7 +16,6 @@ class Product(BaseProduct, PrintMixin):
     price: float
     quantity: int
 
-
     def __init__(self, name, description, price, quantity):
         self.name = name
         self.description = description
@@ -25,9 +24,8 @@ class Product(BaseProduct, PrintMixin):
         if quantity > 0:
             self.quantity = quantity
         else:
-            raise ValueError ("Товар с нулевым количеством не может быть добавлен")
+            raise ValueError("Товар с нулевым количеством не может быть добавлен")
         super().__init__()
-
 
     def __add__(self, other):
         """
@@ -200,5 +198,3 @@ if __name__ == "__main__":
     print(category.products_info)
 
     print(category.middle_price())
-
-
