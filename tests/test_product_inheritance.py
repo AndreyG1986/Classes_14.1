@@ -1,4 +1,4 @@
-from src.base_classes import Product
+from src.main import Product
 
 
 # Создаем мок-классы прямо в тестах

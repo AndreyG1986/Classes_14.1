@@ -1,6 +1,6 @@
 import pytest
 from src.subclasses import Smartphone, LawnGrass
-from src.base_classes import Product
+from src.main import Product
 
 
 class TestSmartphone:

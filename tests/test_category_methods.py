@@ -1,5 +1,5 @@
 import pytest
-from src.base_classes import Category, Product
+from src.main import Category, Product
 
 
 class TestCategoryAddProduct:

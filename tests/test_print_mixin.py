@@ -1,5 +1,5 @@
 import pytest
-from src.base_classes import Product
+from src.main import Product
 from src.print_mixin import PrintMixin
 
 
