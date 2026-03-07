@@ -16,12 +16,18 @@ class Product(BaseProduct, PrintMixin):
     price: float
     quantity: int
 
+
     def __init__(self, name, description, price, quantity):
         self.name = name
         self.description = description
         self.__price = price
-        self.quantity = quantity
+        # self.quantity = quantity
+        if quantity > 0:
+            self.quantity = quantity
+        else:
+            raise ValueError ("Товар с нулевым количеством не может быть добавлен")
         super().__init__()
+
 
     def __add__(self, other):
         """
@@ -151,9 +157,22 @@ class Category:
         """Возвращает список объектов продуктов"""
         return self.__products.copy()  # Возвращаем копию для безопасности
 
+    def middle_price(self):
+        """
+        Вычисляет среднюю цену всех товаров в категории.
+        Если в категории нет товаров, возвращает 0.
+        """
+        try:
+            # Суммируем цены всех продуктов и делим на их количество
+            total_price = sum([product.price for product in self.__products])
+            return total_price / len(self.__products)
+        except ZeroDivisionError:
+            # Если в категории нет товаров (деление на ноль)
+            return 0
+
 
 if __name__ == "__main__":
-    print("\n=== Задание 16.1 Наследование===")
+    print("\n=== Задание 17.1 Исключения ===")
     print("\n=== Проверка PrintMixin ===")
 
     # При создании объекта должен автоматически вывестись repr
@@ -167,3 +186,7 @@ if __name__ == "__main__":
     print("\n=== Категория с продуктами ===")
     category = Category("Электроника", "Разная электроника", [product1, product2])
     print(category.products_info)
+
+    print(category.middle_price())
+
+
