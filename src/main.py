@@ -1,4 +1,4 @@
-from base_classes import Category, Product
+from src.base_classes import Category, Product
 
 # from subclasses import Smartphone, LawnGrass
 
