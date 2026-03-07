@@ -61,11 +61,23 @@ class Product(BaseProduct, PrintMixin):
         if not isinstance(prod_data, dict):
             raise TypeError("Данные должны быть представлены в виде словаря")
 
+        # Проверяем наличие всех обязательных полей
+        required_fields = ["name", "description", "price", "quantity"]
+        for field in required_fields:
+            if field not in prod_data:
+                raise ValueError(f"Отсутствует обязательное поле: {field}")
+
         # Извлекаем данные из словаря
         name = prod_data.get("name")
         description = prod_data.get("description")
         price = prod_data.get("price")
         quantity = prod_data.get("quantity")
+
+        # Дополнительные проверки типов
+        if not isinstance(price, (int, float)):
+            raise TypeError("Цена должна быть числом")
+        if not isinstance(quantity, int):
+            raise TypeError("Количество должно быть целым числом")
 
         # Создаем и возвращаем новый объект Product
         return cls(name, description, price, quantity)

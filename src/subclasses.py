@@ -1,4 +1,4 @@
-from base_classes import Product
+from src.base_classes import Product
 
 
 class Smartphone(Product):

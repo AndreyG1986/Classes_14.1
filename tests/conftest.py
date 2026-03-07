@@ -1,5 +1,6 @@
 import pytest
 from src.base_classes import Product, Category
+from src.subclasses import Smartphone, LawnGrass
 
 
 @pytest.fixture()
@@ -57,3 +58,33 @@ def reset_counters_before_test():
     """Фикстура для сброса счетчиков перед каждым тестом"""
     Category.category_count = 0
     Category.product_count = 0
+
+
+# Фикстуры для удобства (опционально)
+@pytest.fixture
+def sample_smartphone():
+    """Фикстура для создания тестового смартфона"""
+    return Smartphone(
+        "Test Phone",
+        "Test Description",
+        1000.0,
+        5,
+        95.5,
+        "Test Model",
+        128,
+        "Black"
+    )
+
+
+@pytest.fixture
+def sample_grass():
+    """Фикстура для создания тестовой травы"""
+    return LawnGrass(
+        "Test Grass",
+        "Test Description",
+        100.0,
+        10,
+        "Россия",
+        "5 дней",
+        "Зеленый"
+    )

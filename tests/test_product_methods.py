@@ -54,12 +54,10 @@ class TestProductNewProduct:
             "name": "Test Product"
             # Остальные поля отсутствуют
         }
-        product = Product.new_product(product_data)
+        # Изменяем ожидание с "price" на "description", так как description отсутствует первым
+        with pytest.raises(ValueError, match="Отсутствует обязательное поле: description"):
+            Product.new_product(product_data)
 
-        assert product.name == "Test Product"
-        assert product.description is None
-        assert product.price is None
-        assert product.quantity is None
 
     def test_new_product_with_extra_fields(self, product_1):
         """Тест создания продукта с лишними полями"""
